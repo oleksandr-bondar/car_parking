@@ -188,7 +188,6 @@ namespace CarParking
                 return;
             }
 
-            //Пополнить баланс машины
             Console.WriteLine("Список существующих машин:");
             Console.WriteLine(Parking.Instance.GetCarsInfo());
 
