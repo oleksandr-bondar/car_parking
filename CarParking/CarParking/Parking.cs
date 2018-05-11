@@ -53,7 +53,7 @@ namespace CarParking
         public decimal Balance
         {
             get => _balance;
-            set
+            private set
             {
                 if (value < 0)
                     throw new ArgumentOutOfRangeException("Баланс не может быть меньшим нуля.");
@@ -350,12 +350,12 @@ namespace CarParking
                 StringBuilder sb = new StringBuilder();
                 string separator = new string('-', 40);
                 sb.AppendLine(separator);
-                sb.AppendLine($"|{"ID",-10}|{"Баланс",-10}|{"Тип",-16 }|");
+                sb.AppendLine($"|{"ID",-10}|{"Баланс",-10}|{"Тип",-16}|");
                 sb.AppendLine(separator);
 
                 foreach (Car car in _cars)
                 {
-                    sb.AppendLine($"|{car.Id.ToString(),-10}|{Decimal.Round(car.Balance, 10).ToString(),-10}|{car.Type.ToString(),-16 }|");
+                    sb.AppendLine($"|{car.Id.ToString(),-10}|{Decimal.Round(car.Balance, 10).ToString(),-10}|{car.Type.ToString(),-16}|");
                     sb.AppendLine(separator);
                 }
 
