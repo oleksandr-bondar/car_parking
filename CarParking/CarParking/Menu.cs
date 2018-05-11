@@ -9,14 +9,14 @@ namespace CarParking
     /// <summary>
     /// Представляет меню парковки.
     /// </summary>
-    public sealed class Menu
+    public static class Menu
     {
         private static readonly Random rnd = new Random();
 
         /// <summary>
         /// Отображает главное меню парковки.
         /// </summary>
-        public void Show()
+        public static void Show()
         {
             bool reshowMainMenu = true;
 
@@ -73,7 +73,7 @@ namespace CarParking
 
         #region Menu and submenu
 
-        private void ShowMainMenu()
+        private static void ShowMainMenu()
         {
             ClearConsole();
             ShowTitle("Menu:");
@@ -90,7 +90,7 @@ namespace CarParking
             ShowError("Q - Выйти");
         }
 
-        private void ShowCarsMenu()
+        private static void ShowCarsMenu()
         {
             ClearConsole();
             ShowTitle("Список машин:");
@@ -107,7 +107,7 @@ namespace CarParking
             }
         }
 
-        private void ShowAddCarMenu()
+        private static void ShowAddCarMenu()
         {
             ClearConsole();
             ShowTitle("[Добавить машину на парковку]");
@@ -129,7 +129,7 @@ namespace CarParking
             WaitForPressAnyKey();
         }
 
-        private void ShowRemoveCarMenu()
+        private static void ShowRemoveCarMenu()
         {
             ClearConsole();
             ShowTitle("[Удалить машину с парковки]");
@@ -175,7 +175,7 @@ namespace CarParking
             } while (Console.ReadKey(true).Key != ConsoleKey.Q);
         }
 
-        private void ShowRechargeCarBalanceMenu()
+        private static void ShowRechargeCarBalanceMenu()
         {
             ClearConsole();
             ShowTitle("[Пополнить баланс машины]");
@@ -236,7 +236,7 @@ namespace CarParking
             } while (Console.ReadKey(true).Key != ConsoleKey.Q);
         }
 
-        private void ShowTransactionHistoryForLastMinuteMenu()
+        private static void ShowTransactionHistoryForLastMinuteMenu()
         {
             ClearConsole();
 
@@ -255,7 +255,7 @@ namespace CarParking
             }
         }
 
-        private void ShowParkingBalanceMenu()
+        private static void ShowParkingBalanceMenu()
         {
             ClearConsole();
             ShowTitle("Общий доход парковки составляет: " + Parking.Instance.Balance.ToString());
@@ -263,7 +263,7 @@ namespace CarParking
             WaitForPressAnyKey();
         }
 
-        private void ShowParkingDebitForLastMinute()
+        private static void ShowParkingDebitForLastMinute()
         {
             ClearConsole();
             ShowTitle("Доход парковки за последнюю минуту составляет: " + Parking.Instance.GetDebitedForLastMinute().ToString());
@@ -271,7 +271,7 @@ namespace CarParking
             WaitForPressAnyKey();
         }
 
-        private void ShowCountFreeParkingSpaceMenu()
+        private static void ShowCountFreeParkingSpaceMenu()
         {
             ClearConsole();
             ShowTitle($"Количество свободных мест на парковке: {Parking.Instance.CountFreeParkingSpace.ToString()}/{Settings.ParkingSpace.ToString()}.");
@@ -279,7 +279,7 @@ namespace CarParking
             WaitForPressAnyKey();
         }
 
-        private void ShowCountOccupiedParkingSpaceMenu()
+        private static void ShowCountOccupiedParkingSpaceMenu()
         {
             ClearConsole();
             ShowTitle($"Количество занятых мест на парковке: {Parking.Instance.CountOccupiedParkingSpace.ToString()}/{Settings.ParkingSpace.ToString()}.");
@@ -287,14 +287,23 @@ namespace CarParking
             WaitForPressAnyKey();
         }
 
-        private void ShowTransactionsLogMenu()
+        private static void ShowTransactionsLogMenu()
         {
             ClearConsole();
 
             ShowTitle("Содержание файла транзакций:");
-            Console.WriteLine(Parking.Instance.GetTransactionLog());
+            string log = Parking.Instance.GetTransactionLog();
 
-            WaitForPressKeyEnter();
+            if (log == String.Empty)
+            {
+                ShowError("Файл пуст или его не удалось прочесть.");
+                WaitForPressAnyKey();
+            }
+            else
+            {
+                Console.WriteLine(log);
+                WaitForPressKeyEnter();
+            }
         }
 
         /// <summary>
@@ -302,7 +311,7 @@ namespace CarParking
         /// Возвращает true, если выход подтвержден, инача возвращает false. 
         /// </summary>
         /// <returns></returns>
-        private bool ShowAskExitMenu()
+        private static bool ShowAskExitMenu()
         {
             ClearConsole();
             Console.WriteLine("Подтвердите выход: y/n");
@@ -314,20 +323,20 @@ namespace CarParking
 
         #region Helper methods
 
-        private void ClearConsole()
+        private static void ClearConsole()
         {
             Console.Clear();
             Console.SetCursorPosition(0, 0);
         }
 
-        private void WaitForPressAnyKey()
+        private static void WaitForPressAnyKey()
         {
             Console.WriteLine();
             Console.WriteLine("Для возврата в главное меню нажмите любую клавишу...");
             Console.ReadKey(true);
         }
 
-        private void WaitForPressKeyEnter()
+        private static void WaitForPressKeyEnter()
         {
             Console.WriteLine();
             Console.WriteLine("Для возврата в главное меню нажмите клавишу Enter...");
@@ -335,21 +344,21 @@ namespace CarParking
             do { } while (Console.ReadKey(true).Key != ConsoleKey.Enter);
         }
 
-        private void ShowError(string message)
+        private static void ShowError(string message)
         {
             Console.ForegroundColor = ConsoleColor.Red;
             Console.WriteLine(message);
             Console.ResetColor();
         }
 
-        private void ShowInfo(string message)
+        private static void ShowInfo(string message)
         {
             Console.ForegroundColor = ConsoleColor.Green;
             Console.WriteLine(message);
             Console.ResetColor();
         }
 
-        private void ShowTitle(string message)
+        private static void ShowTitle(string message)
         {
             Console.ForegroundColor = ConsoleColor.Magenta;
             Console.WriteLine(message);

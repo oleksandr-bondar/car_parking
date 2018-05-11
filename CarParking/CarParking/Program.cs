@@ -10,6 +10,7 @@ namespace CarParking
     {
         static void Main(string[] args)
         {
+            Menu.Show();
         }
     }
 }
