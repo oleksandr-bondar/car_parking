@@ -18,6 +18,7 @@ namespace CarParking
         /// </summary>
         public static void Show()
         {
+            Console.Title = "Parking";
             bool reshowMainMenu = true;
 
             while (true)
@@ -120,7 +121,7 @@ namespace CarParking
             }
 
             CarType carType = (CarType)rnd.Next(1, 5);
-            decimal initBalance = rnd.Next(100, 1001);
+            decimal initBalance = rnd.Next(50, 1001);
 
             Car newCar = new Car(carType, initBalance);
             Parking.Instance.AddCar(newCar);
